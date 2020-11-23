@@ -125,4 +125,18 @@ if __name__ == '__main__':
     #print(frequent_word(S,5))
     #print(most_freq_kmers(S))
     S_vib_cho_oric = read_dna_file("vibrio_cholerae_oric.txt")
-    pp(most_freq_kmers(S_vib_cho_oric))
+    print(most_freq_kmers(S_vib_cho_oric))
+    # complete process time for call to most_freq_kmers (system + user CPU time)
+    '''
+    import time
+    start = time.process_time()
+    _ = most_freq_kmers(S_vib_cho_oric)
+    end = time.process_time() - start
+    print("{0:.5f} seconds".format(end)) # take roughly 11 seconds to finish
+    '''
+
+    '''
+    TODO: Make timeit work
+    import timeit
+    pp(timeit.timeit('most_freq_kmers(read_dna_file("vibrio_cholerae_oric.txt"))', setup="from __main__ import most_freq_kmers, read_dna_file"))
+    '''

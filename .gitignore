@@ -1,3 +1,5 @@
 **/prac/__pycache__/
 *.swp
 .DS_Store
+**/prac/notes
+**/prac/vibrio_cholerae_9_mers
