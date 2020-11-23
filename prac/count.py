@@ -54,12 +54,32 @@ def frequent_word(S, k):
 
     return freq_kmer_dict
 
+def most_freq_kmers(S):
+    ''' 
+    Return most frequent kmers
+    for all k ; 3 <= k <= len(S) - 2
+    '''
+    len_S = len(S)
+    most_freq_kmers_dict = {}
+    for i in range(3, len_S-1):
+        kmer_dict = frequent_word(S,i)
+        kmer_dict_freq_values = list(kmer_dict.values())
+        if kmer_dict_freq_values[0] == 1:
+            # any word that appeared only once
+            # can be skipped
+            continue
+        else:
+            most_freq_kmers_dict[str(i)+'-mer'] = kmer_dict
+        
+    return most_freq_kmers_dict
+
         
 
 if __name__ == '__main__':
     S = "ACAACTATGCATACTATCGGGAACTATCCT"
     w = "ACTAT"
     #print(patter_count(S,w))
-    print(frequent_word(S,5))
+    #print(frequent_word(S,5))
+    #print(most_freq_kmers(S))
 
     
