@@ -9,6 +9,8 @@ AND
 Also, find most frequent k-mer within the sequence.
 '''
 
+from pprint import pprint as pp
+
 def pattern_count(S, w):
     '''
     Given a sequence S and 
@@ -74,6 +76,47 @@ def most_freq_kmers(S):
     return most_freq_kmers_dict
 
         
+def read_dna_file(filename):
+    ''' 
+    TODO:
+    Right now we are only 
+    reading txt files of 
+    DNA sequences
+
+    TODO:
+    We'll figure out the right
+    DS for storing the sequence
+    info later, right now a string/
+    list is good enough
+    '''
+    import os
+    import sys
+    import re
+    # first look for file with particular
+    # signature in ./data/__file__ directory
+    # if it exists, then read it
+    # make sure than newline characters are taken
+    # care of and that the file only has the 
+    # requisite sequence data only.
+
+    if re.fullmatch("[a-z0-9]*_[a-z0-9]*_oric.txt", filename):
+        data_path = os.path.join(os.getcwd(), 'data')
+        if os.path.isdir(data_path):
+            os.chdir(data_path)
+            file_path = os.path.join(os.getcwd(), filename)
+            try:
+                file_size = os.path.getsize(file_path)
+            except OSError:
+                print("Either file doesn't exist or is inaccessible")
+                sys.exit(1)
+            # Now, the file is avaiable
+            seq_data = ""
+            with open(file_path, 'r') as f:
+                seq_data = "".join(f.read().split("\n"))
+        return seq_data
+    else:
+        print("Filename doesn't match format")
+        sys.exit(1)
 
 if __name__ == '__main__':
     S = "ACAACTATGCATACTATCGGGAACTATCCT"
@@ -81,5 +124,5 @@ if __name__ == '__main__':
     #print(patter_count(S,w))
     #print(frequent_word(S,5))
     #print(most_freq_kmers(S))
-
-    
+    S_vib_cho_oric = read_dna_file("vibrio_cholerae_oric.txt")
+    pp(most_freq_kmers(S_vib_cho_oric))
