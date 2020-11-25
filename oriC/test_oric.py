@@ -3,7 +3,8 @@
 ''' Tests '''
 
 import unittest
-from count import pattern_count, frequent_word, most_freq_kmers
+from oric import pattern_count, frequent_word, most_freq_kmers
+
 
 
 class TestCountMethods(unittest.TestCase):

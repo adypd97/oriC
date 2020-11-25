@@ -30,7 +30,7 @@ Predicting oriC in plasmids and chromosomes.
  
 
 ### References
-- Bioinformatics Algorithms Vol 1 Book
+- Bioinformatics Algorithms Vol 1 (Book)
 - [Ori-Finder](http://origin.tubic.org/Ori-Finder/)  
 - [Cumulative-Skew](https://academic.oup.com/nar/article/26/10/2286/1030593)  
 - [UNC-BioAlgorithms](http://csbio.unc.edu/mcmillan/Comp555S16/Lecture02.html#Where-Does-Replication-Begin?)
