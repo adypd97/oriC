@@ -78,7 +78,8 @@ def most_freq_kmers(S):
         
 def read_dna_file(filename):
     ''' 
-    TODO:
+    SOON TO BE DEPRECIATED
+    TODO: 
     Right now we are only 
     reading txt files of 
     DNA sequences

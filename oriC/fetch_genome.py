@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-Fetch genome data and format it for use.
+Fetch genome data
 Connects to ftp.ncbi.nih.gov ftp server.
 
 See FAQ for more : https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/
@@ -10,12 +10,13 @@ genome and meta data for a given species.
 
 Other variants aren't supported(yet).
 
-What is downloaded ?
+What is downloaded ? (if they exist on server)
     1) assembly_file_report 
     2) assembly_file_status 
     3) assembly_file_stats
     4) assembly_file_regions
-    5) assembly_genome_fasta
+    5) assembly_genome_fasta (only fasta format ...
+                              ... is currently downloadable)
 
     see above FAQ link for more information
     on each file
