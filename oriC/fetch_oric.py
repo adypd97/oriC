@@ -5,11 +5,18 @@ Just get the oriC of a given organism
 from the DoriC database website. 
 The oriC sequence is stored in a <p> tag
 in the html itself. we just scrape that from 
-the website.
+the website[1].
+
+[1] WEBSITE LINK: http://tubic.tju.edu.cn/doric/public/index.php/information/bacteria/ori10010002.html
 
 since, we are directly scraping, there could be 
 issues in the future with this module as and when
 the website changes (or goes down permanently).
+
+NOTE: The nomenclature for the files saved at 
+./data/ORG_TYPE/ORICXXXXXXXX.txt is same as 
+one mentioned in the above website. The link 
+is also an example link (default link)
 '''
 
 import sys
@@ -19,11 +26,14 @@ import os
 # for more on how to find ORG_UID.
 ORG_TYPE = ["bacteria", "archaea", "plasmid"]
 ORG_UID = sys.argv[1] if  (len(sys.argv) > 1) else "ORI10010002"
-URL = "http://tubic.tju.edu.cn/doric/public/index.php/information/{0}/{1}.html".format(ORG_TYPE[0], ORG_UID)
+ORG_INDEX = sys.argv[2] if (len(sys.argv) > 2) else 0
+URL = "http://tubic.tju.edu.cn/doric/public/index.php/information/{0}/{1}.html".format(ORG_TYPE[ORG_INDEX], ORG_UID)
 
 # TODO: add other attributes
 class oricBucket:
-
+    ''' Holds information about the 
+        organism (including oric sequence)
+    '''
     def __init__(self, URL):
         self.URL = URL
         self._seq = oricBucket.fetch_oric(self.URL)
