@@ -14,7 +14,7 @@ LONG rolling_hash(char *S);  // hash function
 int compare_hash(LONG h1, LONG h2); // compare hash from text segment(h1) to pattern hash h2
 
 LONG * pattern_match(char *T, char *p, size_t n, size_t m);   // return pointer to array with starting locations
-					 // of matches for p(pattern) in T (target/text)
+					                      // of matches for p(pattern) in T (target/text)
 
 
 
