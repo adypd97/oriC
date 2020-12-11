@@ -4,7 +4,7 @@ Predicting oriC in plasmids and chromosomes.
 ---
 
 ### Fetching Sequences
----
+
 - See ```oriC/fetch_genome.py``` for fetching entire genomic sequence of   
 an organism
 
@@ -35,10 +35,6 @@ In either case the sequence data is stored in ```data/``` directory.
    
  The key question then is to ask:  
  > **How to find this DnaA Box without knowing what it looks like?**
-
-
-
- 
 
 ### References
 - Bioinformatics Algorithms Vol 1 (Book)
