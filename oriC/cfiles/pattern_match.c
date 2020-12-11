@@ -14,13 +14,17 @@
 // TODO: Refactor main() 
 int main(int argc, char* argv[argc]){
 	if (argc < 2) {
-		fprintf(stderr, "Usage: %s <k-mer-pattern>\n", argv[0]);
+		fprintf(stderr, "Usage: %s <k-mer-pattern> <organism_name>\n", argv[0]);
 		exit(1);
 	}
 
+	char *org_name = argv[2];
+	size_t org_name_len = strlen(org_name);
 	char S[MAXLINE*LINES];
 	char line[MAXLINE];
-	char *in_file = "../data/vibrio_cholerae_oric.txt";
+	size_t in_file_len = 17 + org_name_len;
+	char in_file[in_file_len];
+	sprintf(in_file, "../data/%s_oric.txt", org_name);
 	FILE *f = fopen(in_file, "r");
 	if (ferror(f)) {
 		error_msg();
@@ -42,9 +46,9 @@ int main(int argc, char* argv[argc]){
 	size_t n = strlen(S);
 	size_t m = strlen(pattern);
 
-	size_t outfile_len = 20 + m;
+	size_t outfile_len = 20 + m + strlen(org_name);
 	char out_file[outfile_len];
-	sprintf(out_file, "../res/%s-locations.txt", pattern);
+	sprintf(out_file, "../res/%s-locations-%s.txt", pattern, org_name);
 
 	FILE *o_f = fopen(out_file, "w");
 	if (ferror(o_f)) {
