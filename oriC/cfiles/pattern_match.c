@@ -10,6 +10,8 @@
 #define MAXLINE 60  // TODO: Exact specific values for vibrio_cholerae_oric.txt file
 #define LINES 10    // 60 characters per line ending in \n (59 + 1) and 10 lines
 
+
+// TODO: Refactor main() 
 int main(int argc, char* argv[argc]){
 	if (argc < 2) {
 		fprintf(stderr, "Usage: %s <k-mer-pattern>\n", argv[0]);
@@ -19,7 +21,6 @@ int main(int argc, char* argv[argc]){
 	char S[MAXLINE*LINES];
 	char line[MAXLINE];
 	char *in_file = "../data/vibrio_cholerae_oric.txt";
-	char *out_file = "../data/locations.txt";
 	FILE *f = fopen(in_file, "r");
 	if (ferror(f)) {
 		error_msg();
@@ -32,15 +33,19 @@ int main(int argc, char* argv[argc]){
 		line[n-1] = '\0';
 		strncat(S, line, n);
 	}
-
-
 	if (fclose(f) == EOF) {
 		error_msg();
 	}
 
+
 	char *pattern = argv[1];                              // get the k-mer pattern from command line
 	size_t n = strlen(S);
 	size_t m = strlen(pattern);
+
+	size_t outfile_len = 20 + m;
+	char out_file[outfile_len];
+	sprintf(out_file, "../res/%s-locations.txt", pattern);
+
 	FILE *o_f = fopen(out_file, "w");
 	if (ferror(o_f)) {
 		error_msg();
@@ -53,7 +58,7 @@ int main(int argc, char* argv[argc]){
 		for(size_t i = 0; i < n-m+1; i++) {
 			if (*(start_locations + i) != 0)
 				fprintf(o_f, "%u \n", *(start_locations + i));
-			printf("%u \n", *(start_locations + i));
+			//printf("%u \n", *(start_locations + i));
 		}
 		safer_free(start_locations);
 	}
@@ -96,6 +101,8 @@ int compare_hash(LONG h1, LONG h2) {
 	return h1 == h2 ? 0 : 1;                               // 0 is success, 1 is failure of match
 }
 
+// TODO: make this into a rolling hash function as 
+// intended in rabin-karp string matching algorithm
 LONG hash(char *S) {
 	LONG hash_value = 0L;
 	size_t n = strlen(S);
