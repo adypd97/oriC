@@ -10,6 +10,7 @@ Also, find most frequent k-mer within the sequence.
 '''
 
 from pprint import pprint as pp
+import sys
 
 def pattern_count(S, w):
     '''
@@ -36,8 +37,7 @@ def frequent_word(S, k):
     Find most frequent k-mers in S 
     and return them.
 
-    TODO:NOT VERY EFFICIENT : O(len(S)^2*k)
-    '''
+    TODO:NOT VERY EFFICIENT : O(len(S)^2*k) '''
 
     kmer_count_dict = {}
     S = S.upper()
@@ -118,6 +118,9 @@ def read_dna_file(filename):
     else:
         print("Filename doesn't match format")
         sys.exit(1)
+
+def usage():
+    pass
 
 if __name__ == '__main__':
     S = "ACAACTATGCATACTATCGGGAACTATCCT"

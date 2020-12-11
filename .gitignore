@@ -1,5 +1,6 @@
 **/oriC/__pycache__/
 *.swp
+*.swo
 .DS_Store
 **/oriC/notes
 **/oriC/vibrio_cholerae_9_mers
