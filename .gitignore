@@ -3,6 +3,7 @@
 *.swo
 .DS_Store
 **/oriC/notes
+**/oriC/*.png
 **/oriC/res/
 **/oriC/cfiles/pattern_match
 **/oriC/vibrio_cholerae_9_mers
