@@ -36,6 +36,8 @@ In either case the sequence data is stored in ```data/``` directory.
  The key question then is to ask:  
  > **How to find this DnaA Box without knowing what it looks like?**
 
+### LINK TO NCBI FTP SERVER
+`https://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/`
 ### References
 - Bioinformatics Algorithms Vol 1 (Book)
 - [Ori-Finder](http://origin.tubic.org/Ori-Finder/)  
