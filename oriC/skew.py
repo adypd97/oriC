@@ -23,7 +23,7 @@ def plot_skew(y):
     plt.xlabel("genome")
     plt.ylabel("#G - #C")
     #plt.show()
-    fig.savefig("sequence.png")
+    fig.savefig("./res/sequence.png")
 
 def min_pos(seq):
     MIN_SEQ = min(seq)
@@ -40,7 +40,7 @@ def L_seq_near_min_skew(pos, min_value, L, seq):
     return  seq[pos - L//2 : pos + L//2].upper()
 
 def save_result():
-    fname = "./res/result1.txt"
+    fname = "./res/result2.txt"
     seq = get_dna_seq().getvalue().lower()
     positions = skew(seq)
     pos, min_value = min_pos(positions)

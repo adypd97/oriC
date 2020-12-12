@@ -15,9 +15,9 @@ import gzip
 import os
 import sys
 import io
-
-ORGANISM_PATH = "data/Vibrio_cholerae"
-ORGANISM_GENOME_FASTA_FILE = "data/Vibrio_cholerae/GCA_000829215.1_ASM82921v1_genomic.fna.gz"
+#"/GCA_000016785.1_ASM1678v1_genomic.fna.gz" "data/Thermotoga_petrophila"
+ORGANISM_PATH = "data/Acetobacter_aceti" #"data/Vibrio_cholerae"
+ORGANISM_GENOME_FASTA_FILE = ORGANISM_PATH + "/GCA_000379545.1_ASM37954v1_genomic.fna.gz" #"/GCA_000829215.1_ASM82921v1_genomic.fna.gz"
 
 def get_dna_seq():
     ''' 

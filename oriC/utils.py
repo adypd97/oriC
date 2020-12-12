@@ -29,8 +29,28 @@ def integrity_check(S):
     return all(status)
     
 
+def get_kv(k):
+    '''
+    Return the line in file which has k in it
+    '''
+    k = k.split()
+    k = ''.join([k[0].title(), "_", k[1].lower()])
+    linkfile = "./linkfile"
+    with open("linkfile") as f:
+        for line in f.readlines():
+            if line.split()[0] == k:
+                 return tuple(line.split())
+    return (None, None)
+
+    
+
 if __name__ == "__main__":
-    S = "aatttggtgccaaaaaccccc"
-    assert complement(S) == "ttaaaccacggtttttggggg"
+    #S = "aatttggtgccaaaaaccccc"
+    #assert complement(S) == "ttaaaccacggtttttggggg"
+    #ORG, FGIB = get_kv("vbrio cholerae")
+
+
+
+
 
 

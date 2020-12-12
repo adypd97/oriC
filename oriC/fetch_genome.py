@@ -38,7 +38,7 @@ import sys
 # read from a file
 #print(sys.argv)
 if not len(sys.argv) == 3:
-    print("Please enter genus and species both of organism")
+    print("Please enter both genus and species of organism")
     sys.exit(1)
 else:
     GENUS = sys.argv[1].lower().title().rstrip()
@@ -51,8 +51,9 @@ BASE_URL = "ftp.ncbi.nih.gov"
 GENOME_SUBDIR = "genomes/"
 CLASS_BACTERIA_SUBDIR = "genbank/bacteria/"
 
-# VIBRIO_CHOLERAE REPRESENTATIVE (LATEST) EXAMPLE
-VIBRIO_CHOLERAE = ORG  + "/representative/GCA_000829215.1_ASM82921v1/"
+# VIBRIO_CHOLERAE REPRESENTATIVE (LATEST) EXAMPLE, WORKING FOR THERMOTOGA PETROPHILA AS WELL
+# TODO: REFACTOR VARIABLE NAMES AND ALSO MAKE API SIMPLER
+VIBRIO_CHOLERAE = ORG  + "/representative/" + "GCA_000379545.1_ASM37954v1" #"TPETROPHILAGCA_000016785.1_ASM1678v1"  # VCHOLERAE : GCA_000829215.1_ASM82921v1/"
 VIBRIO_CHOLERAE_rep = VIBRIO_CHOLERAE.split("/")[2]
 ASSEMBLY_FILE_REPORT = VIBRIO_CHOLERAE_rep + "_assembly_report.txt"
 ASSEMBLY_FILE_STATUS = VIBRIO_CHOLERAE_rep + "_assembly_status.txt"
