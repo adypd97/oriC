@@ -33,7 +33,7 @@ def pattern_count(S, w):
 
 def frequent_word(S, k):
     '''
-    Given s sequence S and number k
+    Given a sequence S and number k
     Find most frequent k-mers in S 
     and return them.
 
@@ -50,11 +50,12 @@ def frequent_word(S, k):
         i += 1
     freq_kmer_dict = {}
     max_freq_kmer = max(kmer_count_dict.values())
-    for k,v in kmer_count_dict.items():
-        if v == max_freq_kmer:
-            freq_kmer_dict[k] = v
-
-    return freq_kmer_dict
+    if max_freq_kmer >= 3: # a k-mer must appear atleast 3 times in the sequence
+        for k,v in kmer_count_dict.items():
+            if v in [max_freq_kmer, max_freq_kmer-1, max_freq_kmer-2]:
+                freq_kmer_dict[k] = v
+        return freq_kmer_dict
+    return None
 
 def most_freq_kmers(S):
     ''' 
@@ -63,19 +64,17 @@ def most_freq_kmers(S):
     '''
     len_S = len(S)
     most_freq_kmers_dict = {}
-    for i in range(3, len_S-1):
-        kmer_dict = frequent_word(S,i)
-        kmer_dict_freq_values = list(kmer_dict.values())
-        if kmer_dict_freq_values[0] == 1:
-            # any word that appeared only once
-            # can be skipped
-            continue
-        else:
-            most_freq_kmers_dict[str(i)+'-mer'] = kmer_dict
+    #for i in range(3, len_S-1):
+    #for i in range(9, 10):
+    kmer_dict = frequent_word(S,9) # only 9-mer is of interest
+    kmer_dict_freq_values = list(kmer_dict.values())
+    if kmer_dict_freq_values[0] > 1:
+        most_freq_kmers_dict[str(9)+'-mer'] = kmer_dict
         
-    return most_freq_kmers_dict
+    return most_freq_kmers_dict # only for a 9-mer
 
         
+import sys
 def read_dna_file(filename):
     ''' 
     SOON TO BE DEPRECIATED
@@ -91,7 +90,6 @@ def read_dna_file(filename):
     list is good enough
     '''
     import os
-    import sys
     import re
     # first look for file with particular
     # signature in ./data/__file__ directory
@@ -128,8 +126,8 @@ if __name__ == '__main__':
     #print(patter_count(S,w))
     #print(frequent_word(S,5))
     #print(most_freq_kmers(S))
-    S_vib_cho_oric = read_dna_file("vibrio_cholerae_oric.txt")
-    print(most_freq_kmers(S_vib_cho_oric))
+    S_oric_region= read_dna_file(sys.argv[1])
+    print(most_freq_kmers(S_oric_region))
     # complete process time for call to most_freq_kmers (system + user CPU time)
     '''
     import time

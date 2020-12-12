@@ -47,5 +47,5 @@ def get_dna_seq():
     return dna_seq
 
 
-if __name__ == "":
+if __name__ == "__main__":
     seq = get_dna_seq()
