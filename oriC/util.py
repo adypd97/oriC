@@ -30,6 +30,7 @@ def integrity_check(S):
     
 
 def get_kv(k):
+    import sys
     '''
     Return the line in file which has k in it
     '''
@@ -41,6 +42,7 @@ def get_kv(k):
         for line in f.readlines():
             if line.split()[0] == k:
                  return tuple(line.split())
+    print("Files related to '{}' weren't found".format(k), file=sys.stderr);
     return (None, None)
 
     
@@ -48,8 +50,7 @@ def get_kv(k):
 if __name__ == "__main__":
     #S = "aatttggtgccaaaaaccccc"
     #assert complement(S) == "ttaaaccacggtttttggggg"
-    #ORG, FGIB = get_kv("vbrio cholerae")
-    pass
+    ORG, FGIB = get_kv("vbrio cholerae")
 
 
 

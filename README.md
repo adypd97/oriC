@@ -3,6 +3,8 @@
 Predicting oriC in plasmids and chromosomes.
 ---
 
+**See `../oriC/APInotes` for usage directions**
+
 ### Fetching Sequences
 
 - See ```oriC/fetch_genome.py``` for fetching entire genomic sequence of   

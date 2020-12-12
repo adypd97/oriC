@@ -49,6 +49,7 @@ int main(int argc, char* argv[argc]){
 	size_t outfile_len = 20 + m + strlen(org_name);
 	char out_file[outfile_len];
 	sprintf(out_file, "../res/%s-locations-%s.txt", pattern, org_name);
+	printf("here\n");
 
 	FILE *o_f = fopen(out_file, "w");
 	if (ferror(o_f)) {
@@ -56,6 +57,8 @@ int main(int argc, char* argv[argc]){
 	}
 	fprintf(o_f, "%zu-mer : %s\n", m, pattern);
 	fprintf(o_f, "START LOCATIONS of '%s' in given Sequence \n", pattern);
+
+	printf("here\n");
 
 	LONG *start_locations = pattern_match(S, pattern, n, m);
 	if (start_locations) {
@@ -70,6 +73,8 @@ int main(int argc, char* argv[argc]){
 	if (fclose(o_f) == EOF) {
 		error_msg();
 	}
+
+	printf("here\n");
 
 	return 0;
 }

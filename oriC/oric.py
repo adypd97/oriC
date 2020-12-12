@@ -12,6 +12,20 @@ Also, find most frequent k-mer within the sequence.
 from pprint import pprint as pp
 import sys
 
+def hamming_dist(s1, s2):
+    ''' Calculate hamming distance between
+    two strings of equal length
+    '''
+    assert len(s1) == len(s2), "strings should be of equal length"
+    mismatch = 0
+    for v1, v2 in zip(s1, s2):
+        if v1 != v2:
+            mismatch += 1
+    return mismatch
+
+'''
+DEPRECIATE
+'''
 def pattern_count(S, w):
     '''
     Given a sequence S and 
@@ -30,15 +44,31 @@ def pattern_count(S, w):
             count_w += 1
     return count_w
 
+def pattern_count_w_mis(S, w, d):
+    ''' Same as pattern_count(S,w)
+    (above) but with the addition
+    flexibility of d mismatches in S
+    '''
+    len_w = len(w)
+    len_S = len(S)
+    count_w = 0
+    S = S.upper()
+    w = w.upper()
+    # sliding window of length len_w
+    for i in range(0,len_S-len_w):
+        win = S[i:i+len_w]
+        if hamming_dist(w, win) <= d:
+            count_w += 1
+    return count_w
 
-def frequent_word(S, k):
+
+def frequent_word(S, k, d=0):
     '''
     Given a sequence S and number k
     Find most frequent k-mers in S 
     and return them.
 
-    TODO:NOT VERY EFFICIENT : O(len(S)^2*k) '''
-
+    TODO:INEFFICIENT : O(len(S)^2*k) '''
     kmer_count_dict = {}
     S = S.upper()
     i = 0
@@ -46,35 +76,70 @@ def frequent_word(S, k):
         if i == len(S) - k + 1:
             break
         w = S[i:i+k]
-        kmer_count_dict[w] = pattern_count(S,w)
+        kmer_count_dict[w] = pattern_count_w_mis(S, w, d)#pattern_count(S,w)
         i += 1
     freq_kmer_dict = {}
     max_freq_kmer = max(kmer_count_dict.values())
-    if max_freq_kmer >= 3: # a k-mer must appear atleast 3 times in the sequence
-        for k,v in kmer_count_dict.items():
-            if v in [max_freq_kmer, max_freq_kmer-1, max_freq_kmer-2]:
-                freq_kmer_dict[k] = v
-        return freq_kmer_dict
-    return None
+    for k,v in kmer_count_dict.items():
+        if v == max_freq_kmer:
+            freq_kmer_dict[k] = v
 
-def most_freq_kmers(S):
+    return freq_kmer_dict
+
+def most_freq_kmers(S, d):
     ''' 
     Return most frequent kmers
     for all k ; 3 <= k <= len(S) - 2
     '''
+    from tqdm import tqdm as tq
     len_S = len(S)
     most_freq_kmers_dict = {}
-    #for i in range(3, len_S-1):
-    #for i in range(9, 10):
-    kmer_dict = frequent_word(S,9) # only 9-mer is of interest
-    kmer_dict_freq_values = list(kmer_dict.values())
-    if kmer_dict_freq_values[0] > 1:
-        most_freq_kmers_dict[str(9)+'-mer'] = kmer_dict
+    for i in tq(range(9, 10)): # TODO: fix later, only computing for 9-mers
+        kmer_dict = frequent_word(S,i, d)
+        kmer_dict_freq_values = list(kmer_dict.values())
+        if kmer_dict_freq_values[0] in [1, 2]:
+            # any word that appeared only once
+            # can be skipped
+            continue
+        else:
+            most_freq_kmers_dict[str(i)+'-mer'] = kmer_dict
         
-    return most_freq_kmers_dict # only for a 9-mer
+    return most_freq_kmers_dict
+
+from util import complement
+def freq_9_kmers_with_compliment(S, d):
+    
+    S_prime = complement(S)
+    k_mers = set()
+    S_k_mers = most_freq_kmers(S,d)
+    S_prime_k_mers = most_freq_kmers(S_prime, d)
+    for v in S_k_mers["9-mer"].keys():
+        k_mers.add(v)
+    for v in S_prime_k_mers["9-mer"].keys():
+        k_mers.add(v)
+    return list(k_mers)
 
         
 import sys
+import os
+def read_oric_region(filename):
+    ''' 
+    Reading the oriC sequences obtained 
+    from skew algorithm
+    '''
+    seq = ""
+    FILE_PATH = os.path.join(os.getcwd(), 'res/{}'.format(filename))
+    if os.path.isfile(FILE_PATH):
+        with open(FILE_PATH) as f:
+            _ = f.readline()
+            _ = f.readline()
+            _ = f.readline()
+            seq = f.readline()
+    else:
+        raise OSError("Not a file")
+        sys.exit(1)
+    return seq
+
 def read_dna_file(filename):
     ''' 
     SOON TO BE DEPRECIATED
@@ -89,7 +154,6 @@ def read_dna_file(filename):
     info later, right now a string/
     list is good enough
     '''
-    import os
     import re
     # first look for file with particular
     # signature in ./data/__file__ directory
@@ -118,16 +182,34 @@ def read_dna_file(filename):
         sys.exit(1)
 
 def usage():
-    pass
+    print("Usage: 1) {} <genus>_<species>_oric.txt <dir> FOR ACCESSING FILES IN ./data/".format(sys.argv[0]))
+    print("       2) {} <Genus>_<species>_oric_prediction.txt <dir> FOR ACCESSING FILES IN ./res/".format(sys.argv[0]))
+    sys.exit(1)
+
+def create_file_template(g, s, dirname):
+    if dirname == "data":
+        filename = "{}_{}_oric.txt".format(g.lower(), s.lower())
+    else:
+        filename = "{}_{}_oric_prediction.txt".format(g.lower().title(), s.lower())
+    return filename
 
 if __name__ == '__main__':
-    S = "ACAACTATGCATACTATCGGGAACTATCCT"
-    w = "ACTAT"
-    #print(patter_count(S,w))
+    S = "AACAAGCATAAAAACATTAAAGAG"
+    w = "AAAAA"
+    #print(pattern_count(S,w))
+    #print(pattern_count_w_mis(S,w,1))
     #print(frequent_word(S,5))
     #print(most_freq_kmers(S))
-    S_oric_region= read_dna_file(sys.argv[1])
-    print(most_freq_kmers(S_oric_region))
+    #S_oric_region= read_dna_file(sys.argv[1])
+    #print(freq_9_kmers_with_compliment(S_oric_region, 1))
+
+    if len(sys.argv) < 4:
+        usage()
+    else:
+        filename = create_file_template(sys.argv[1], sys.argv[2], sys.argv[3])
+        S_oric_region= read_dna_file(filename)
+        print(freq_9_kmers_with_compliment(S_oric_region, 1))
+
     # complete process time for call to most_freq_kmers (system + user CPU time)
     '''
     import time

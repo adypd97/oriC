@@ -1,0 +1,13 @@
+NOTE: 
+1)linkfile -> keeps a key value pair of NCBI specific file names. This needs to be 
+  manually updated by user before running going any further with analysis
+
+2)If util/get_kv.py reports on the stderr -> the requested files for that organism wasn't 
+  found in linkfile and hence isn't avaiable on disk or the user could have mistyped.
+
+
+$ ./oric.py <genus> <species> <dirname> [ access oric region either from ./res/ or ./data/ ]
+$ ./skew.py <genus> <species> [ complete genus and species name in lowercase ]
+$ ./fetch_genome.py <genus> <species> [ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ]
+$ ./pattern_match <pattern> <genus>_<species> [ complete genus and species name in lowercase with _ in between ]
+

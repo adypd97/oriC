@@ -39,7 +39,7 @@ def L_seq_near_min_skew(pos, min_value, L, seq):
         from the genome around min_skew
         value postion
     '''
-    return  seq[pos - L//2 : pos + L//2].upper()
+    return  seq[pos: pos + L]
 
 def save_result(org):
     fname = "./res/{}_oric_prediction.txt".format(org)
