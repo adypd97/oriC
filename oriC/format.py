@@ -15,11 +15,10 @@ import gzip
 import os
 import sys
 import io
-#"/GCA_000016785.1_ASM1678v1_genomic.fna.gz" "data/Thermotoga_petrophila"
-ORGANISM_PATH = "data/Acetobacter_aceti" #"data/Vibrio_cholerae"
-ORGANISM_GENOME_FASTA_FILE = ORGANISM_PATH + "/GCA_000379545.1_ASM37954v1_genomic.fna.gz" #"/GCA_000829215.1_ASM82921v1_genomic.fna.gz"
+from util import get_kv
 
-def get_dna_seq():
+
+def get_dna_seq(ORGANISM):
     ''' 
      Return DNA sequence as in-memory string
      object
@@ -29,11 +28,13 @@ def get_dna_seq():
      case?)
 
     '''
+    ORG, FGIB = get_kv(ORGANISM)
+    ORGANISM_PATH = "data/" + ORG
+    ORGANISM_GENOME_FASTA_FILE = ORGANISM_PATH + "/" + FGIB + "_genomic.fna.gz"
     dna_seq = io.StringIO()
     if os.path.exists(ORGANISM_PATH):
         try:
             with gzip.open(ORGANISM_GENOME_FASTA_FILE) as f:
-                # read 500 bp at a time
                 f.readline()                # skip the unwanted first line 
                 for seq in f:
                     dna_seq.write(seq.decode('utf-8').rstrip())
@@ -48,4 +49,4 @@ def get_dna_seq():
 
 
 if __name__ == "__main__":
-    seq = get_dna_seq()
+    seq = get_dna_seq("vibrio cholerae")

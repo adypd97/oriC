@@ -25,13 +25,12 @@ How does it work?
 On the commandline :
     $ ./fetch_genome.py [GENUS] [SPECIES]
 will download the above files in oric/data/GENUS_SPECIES
-
 '''
 # TODO: This module would need to be made cross platform
 # TODO: Integrity check for files
 
 import sys
-
+from util import get_kv
 # TODO : Enter organism ORG as commandline arguments
 # Unfortunately we also need the [assembly accession number].[assembly name]
 # So, either we include that in commandline arg or better yet,
@@ -47,13 +46,15 @@ else:
 
 SAVE_DIR = "data/"
 
+LORG, LFGIB = get_kv(' '.join([GENUS, SPECIES])) # LGFIB => represents the weird file naming system of ncbi
+assert(LORG == ORG)
 BASE_URL = "ftp.ncbi.nih.gov"
 GENOME_SUBDIR = "genomes/"
 CLASS_BACTERIA_SUBDIR = "genbank/bacteria/"
 
 # VIBRIO_CHOLERAE REPRESENTATIVE (LATEST) EXAMPLE, WORKING FOR THERMOTOGA PETROPHILA AS WELL
 # TODO: REFACTOR VARIABLE NAMES AND ALSO MAKE API SIMPLER
-VIBRIO_CHOLERAE = ORG  + "/representative/" + "GCA_000379545.1_ASM37954v1" #"TPETROPHILAGCA_000016785.1_ASM1678v1"  # VCHOLERAE : GCA_000829215.1_ASM82921v1/"
+VIBRIO_CHOLERAE = ORG  + "/representative/" + LFGIB
 VIBRIO_CHOLERAE_rep = VIBRIO_CHOLERAE.split("/")[2]
 ASSEMBLY_FILE_REPORT = VIBRIO_CHOLERAE_rep + "_assembly_report.txt"
 ASSEMBLY_FILE_STATUS = VIBRIO_CHOLERAE_rep + "_assembly_status.txt"

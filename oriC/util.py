@@ -34,9 +34,10 @@ def get_kv(k):
     Return the line in file which has k in it
     '''
     k = k.split()
+    assert len(k) == 2, "{}".format(k)
     k = ''.join([k[0].title(), "_", k[1].lower()])
     linkfile = "./linkfile"
-    with open("linkfile") as f:
+    with open(linkfile) as f:
         for line in f.readlines():
             if line.split()[0] == k:
                  return tuple(line.split())
@@ -48,6 +49,7 @@ if __name__ == "__main__":
     #S = "aatttggtgccaaaaaccccc"
     #assert complement(S) == "ttaaaccacggtttttggggg"
     #ORG, FGIB = get_kv("vbrio cholerae")
+    pass
 
 
 
