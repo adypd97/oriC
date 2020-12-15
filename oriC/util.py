@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 
+class SequenceError(Exception):
+    pass
+
 def complement(S):
     '''
     Given a DNA sequence S (in 5' -> 3')
     return the complementary (in 3' -> 5')
     '''
+    S = S.upper()
     if integrity_check(S):
-        lookup = { 'a' : 't', 'g' : 'c' , 't' : 'a', 'c' : 'g' }
+        lookup = { 'A' : 'T', 'G' : 'C' , 'T' : 'A', 'C' : 'G' }
         comp_S = [lookup[n] for n in S]
     else:
-        return "Sequence seems to be corrupted, \
-                    integrity_check failed!"
+        raise SequenceError("Sequence seems to be corrupted, \
+                    integrity_check failed!")
 
     assert len(comp_S) == len(S), "length complementary sequence  \
                                     must match given sequence"
-    return ''.join(comp_S)
+    return ''.join(comp_S)[::-1]
 
 def integrity_check(S):
     ''' 
@@ -24,7 +28,7 @@ def integrity_check(S):
     in other words, see if integrity is 
     maintained
     '''
-    N = ['a', 't', 'g', 'c']
+    N = ['A', 'T', 'G', 'C']
     status = [True if n in N else False for n in S]
     return all(status)
     
@@ -50,10 +54,5 @@ def get_kv(k):
 if __name__ == "__main__":
     #S = "aatttggtgccaaaaaccccc"
     #assert complement(S) == "ttaaaccacggtttttggggg"
+    print(complement("atgatcaag"))
     ORG, FGIB = get_kv("vbrio cholerae")
-
-
-
-
-
-

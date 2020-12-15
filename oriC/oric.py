@@ -62,6 +62,7 @@ def pattern_count_w_mis(S, w, d):
     return count_w
 
 
+from util import complement
 def frequent_word(S, k, d=0):
     '''
     Given a sequence S and number k
@@ -76,46 +77,38 @@ def frequent_word(S, k, d=0):
         if i == len(S) - k + 1:
             break
         w = S[i:i+k]
-        kmer_count_dict[w] = pattern_count_w_mis(S, w, d)#pattern_count(S,w)
+        w_prime = complement(w)
+        kmer_count_dict[w] = pattern_count_w_mis(S, w, d)
+        #kmer_count_dict[w_prime] = pattern_count_w_mis(S, w_prime, d)
         i += 1
+    max_kmer_count = max(kmer_count_dict.values())
     freq_kmer_dict = {}
-    max_freq_kmer = max(kmer_count_dict.values())
     for k,v in kmer_count_dict.items():
-        if v == max_freq_kmer:
+        if v >= 3 and v <= max_kmer_count: # 4 is arbitrary 
             freq_kmer_dict[k] = v
 
+    del kmer_count_dict
     return freq_kmer_dict
 
 def most_freq_kmers(S, d):
     ''' 
     Return most frequent kmers
-    for all k ; 3 <= k <= len(S) - 2
-    '''
+    for all k ; 3 <= k <= len(S) - 2 ''' 
     from tqdm import tqdm as tq
     len_S = len(S)
     most_freq_kmers_dict = {}
     for i in tq(range(9, 10)): # TODO: fix later, only computing for 9-mers
         kmer_dict = frequent_word(S,i, d)
         kmer_dict_freq_values = list(kmer_dict.values())
-        if kmer_dict_freq_values[0] in [1, 2]:
-            # any word that appeared only once
-            # can be skipped
-            continue
-        else:
-            most_freq_kmers_dict[str(i)+'-mer'] = kmer_dict
+        most_freq_kmers_dict[str(i)+'-mer'] = kmer_dict
         
     return most_freq_kmers_dict
 
-from util import complement
-def freq_9_kmers_with_compliment(S, d):
-    
-    S_prime = complement(S)
+def freq_9_kmers_with_compliment(S,d):
     k_mers = set()
     S_k_mers = most_freq_kmers(S,d)
-    S_prime_k_mers = most_freq_kmers(S_prime, d)
+    print(S_k_mers["9-mer"])
     for v in S_k_mers["9-mer"].keys():
-        k_mers.add(v)
-    for v in S_prime_k_mers["9-mer"].keys():
         k_mers.add(v)
     return list(k_mers)
 
@@ -134,7 +127,7 @@ def read_oric_region(filename):
             _ = f.readline()
             _ = f.readline()
             _ = f.readline()
-            seq = f.readline()
+            seq = f.readline().strip()
     else:
         raise OSError("Not a file")
         sys.exit(1)
@@ -193,6 +186,28 @@ def create_file_template(g, s, dirname):
         filename = "{}_{}_oric_prediction.txt".format(g.lower().title(), s.lower())
     return filename
 
+'''
+For given organism find matching
+k-mers that were found with given data
+and from skew prediction
+
+Search in :
+freq_kmers/ondata and 
+freq_kmers/onprediction
+'''
+def match():
+    d = ['GATCAACGT', 'AAGAATGAT', 'AGCATGATC', 'TGATCATCG', 'GATCATCGT', 'CTCTTGATC', 'TGATCATGG', 'ATGATCATG', 'CCTCTTGAT', 'TGATCAAGG', 'CTTGATCAT', 'GAATGATCA', 'AGAATGATC', 'TTGATCATC', 'GCTCTTGAT', 'AAGCATGAT', 'ATGATCAAG', 'GATGATCAA', 'CATGATCAT', 'GCATGATCA', 'AGCTCTTGA', 'ATGATCAAC', 'GATCAAGGT', 'TGATCAACG', 'AATGATCAA', 'CATGATCAA', 'TGATCAAGA', 'TGATCAAGC', 'TCTTGATCA', 'TTGATCATG']
+
+    p = ['TTGCATCAT', 'TTGAATCAT']
+    smlr = p if len(p) <= len(d) else d
+    matches = set([v for v in smlr if v in d])
+    return list(matches)
+
+def get_freq_kmers(g,s,dirname):
+    FILE_PATH = os.path.join(os.getcwd(), 'freq_kmers/{}/{}'.format(filename))
+    if os.path.isfile(FILE_PATH):
+        pass
+
 if __name__ == '__main__':
     S = "AACAAGCATAAAAACATTAAAGAG"
     w = "AAAAA"
@@ -207,8 +222,14 @@ if __name__ == '__main__':
         usage()
     else:
         filename = create_file_template(sys.argv[1], sys.argv[2], sys.argv[3])
-        S_oric_region= read_dna_file(filename)
+        if sys.argv[3] == "data":
+            S_oric_region= read_dna_file(filename)
+        elif sys.argv[3] == "res":
+            S_oric_region= read_oric_region(filename)
+            S_oric_region.upper()
         print(freq_9_kmers_with_compliment(S_oric_region, 1))
+
+    #print(match())
 
     # complete process time for call to most_freq_kmers (system + user CPU time)
     '''

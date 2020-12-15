@@ -47,7 +47,7 @@ def save_result(org):
     positions = skew(seq)
     pos, min_value = min_pos(positions)
     plot_skew(positions, org)
-    L = 500
+    L = 700
     with open(fname, "w") as f:
         f.write("POSITION: {} \nOF MINIMUM SKEW VALUE: {}\n".format(pos, min_value))
         f.write("POSSIBLE ORIC REGION :\n{}\n".format(L_seq_near_min_skew(pos, min_value, L, seq)))
